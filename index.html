@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Caitríona McAllister — Creative Technologist & Strategist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;700&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-section:#dcdcdc;
+    --bg-dim:#eeeeee;
+    --placeholder:#6f6f6f;
+    --placeholder-2:#8a8a8a;
+    --ink:#111111;
+    --ink-soft:#4a4a4a;
+    --line:#b9b9b9;
+    --dark:#3f3f3f;
+    --footer:#2c2c2c;
+    --focus:#111111;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  :focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- Header ---------- */
+  .site-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 28px 40px;
+  }
+  .logo-box{
+    width:56px; height:56px;
+    background:#e4e4e4;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:9px; letter-spacing:0.08em;
+    color:var(--ink-soft);
+  }
+  nav.primary-nav{ display:flex; gap:28px; }
+  nav.primary-nav a{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-decoration:none;
+    text-transform:uppercase;
+    padding-bottom:2px;
+    border-bottom:1px solid transparent;
+    transition:border-color .2s ease;
+  }
+  nav.primary-nav a:hover{ border-color:var(--ink); }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    text-align:center;
+    padding: 70px 20px 90px;
+  }
+  .hero h1{
+    font-family:var(--display);
+    font-weight:700;
+    text-transform:uppercase;
+    font-size:clamp(38px, 7vw, 76px);
+    line-height:1.05;
+    letter-spacing:0.01em;
+    margin:0;
+    cursor:default;
+  }
+  .hero h1 .decrypt-line{ display:block; }
+  .hover-hint{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:22px 0 30px;
+  }
+  .hero .tagline{
+    font-family:var(--mono);
+    font-size:14px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- Work section ---------- */
+  .work-section{
+    background:var(--bg-section);
+    padding: 56px 40px 70px;
+  }
+  .work-heading{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    margin-bottom:36px;
+    position:relative;
+  }
+  .work-heading h2{
+    font-family:var(--display);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    font-size:20px;
+    margin:0;
+  }
+  #viewToggle{
+    position:absolute;
+    right:0;
+    top:50%;
+    transform:translateY(-50%);
+    background:var(--dark);
+    color:#fff;
+    border:none;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    padding:10px 16px;
+    cursor:pointer;
+    transition:background .2s ease;
+  }
+  #viewToggle:hover{ background:#222; }
+
+  .masonry{
+    column-count:2;
+    column-gap:24px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .masonry.list-view{ column-count:1; max-width:640px; }
+  .project-card{
+    break-inside:avoid;
+    margin-bottom:36px;
+    display:block;
+    text-decoration:none;
+    color:inherit;
+  }
+  .project-card .thumb{
+    width:100%;
+    background:var(--placeholder);
+    position:relative;
+    overflow:hidden;
+    transition:filter .25s ease;
+  }
+  .project-card:nth-child(1) .thumb{ aspect-ratio: 4/3.1; }
+  .project-card:nth-child(2) .thumb{ aspect-ratio: 4/4.6; }
+  .project-card:nth-child(3) .thumb{ aspect-ratio: 4/3.4; }
+  .project-card:nth-child(4) .thumb{ aspect-ratio: 4/5.2; }
+  .project-card:nth-child(5) .thumb{ aspect-ratio: 4/3.9; }
+  .project-card:nth-child(6) .thumb{ aspect-ratio: 4/4.4; }
+  .project-card:hover .thumb{ filter:brightness(0.88); }
+  .thumb::after{
+    content:"";
+    position:absolute; inset:0;
+    background:repeating-linear-gradient(135deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 6px);
+  }
+  .project-card .meta{ padding-top:12px; }
+  .project-card .brand{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+  }
+  .project-card .loc{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+
+  /* ---------- About section ---------- */
+  .about-section{
+    padding: 90px 40px 60px;
+    text-align:center;
+  }
+  .about-section h2{
+    font-family:var(--display);
+    font-weight:700;
+    text-transform:uppercase;
+    font-size:26px;
+    letter-spacing:0.03em;
+    margin:0 0 56px;
+  }
+  .about-grid{
+    display:flex;
+    gap:40px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:left;
+  }
+  .about-grid .bio{
+    flex:1.3;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink-soft);
+    margin:0;
+  }
+  .about-grid .divider{
+    width:1px;
+    background:var(--line);
+  }
+  .contact-block{ flex:1; }
+  .contact-block h3{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    margin:0 0 14px;
+  }
+  .contact-block ul{
+    list-style:none;
+    margin:0; padding:0;
+    font-family:var(--mono);
+    font-size:12.5px;
+    line-height:2;
+  }
+  .contact-block ul a{ text-decoration:none; border-bottom:1px solid var(--line); }
+  .contact-block ul a:hover{ border-color:var(--ink); }
+
+  .reel-btn{
+    margin-top:56px;
+    background:none;
+    border:1px solid var(--ink);
+    padding:14px 26px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background .2s ease, color .2s ease;
+  }
+  .reel-btn:hover{ background:var(--ink); color:#fff; }
+
+  /* ---------- Ticker ---------- */
+  .ticker{
+    background:var(--dark);
+    overflow:hidden;
+    padding:22px 0;
+    margin-top:70px;
+  }
+  .ticker-track{
+    display:flex;
+    width:max-content;
+    animation: scroll-ticker 32s linear infinite;
+  }
+  .ticker-item{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:#e7e7e7;
+    padding:0 26px;
+    white-space:nowrap;
+    border-right:1px solid rgba(255,255,255,0.25);
+  }
+  @keyframes scroll-ticker{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+
+  /* ---------- Monogram ---------- */
+  .monogram-section{
+    background:
+      radial-gradient(#d9d9d9 1px, transparent 1px) 0 0/16px 16px,
+      var(--bg-dim);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:70px 20px;
+  }
+  #monogramCanvas{
+    image-rendering:pixelated;
+    image-rendering:crisp-edges;
+    max-width:100%;
+    height:auto;
+  }
+
+  /* ---------- Footer ---------- */
+  .site-footer{
+    background:var(--footer);
+    color:#e7e7e7;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 24px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+
+  @media (max-width:760px){
+    .site-header{ padding:20px; flex-direction:column; gap:16px; }
+    .masonry{ column-count:1; max-width:420px; }
+    .about-grid{ flex-direction:column; }
+    .about-grid .divider{ width:100%; height:1px; }
+    #viewToggle{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .ticker-track{ animation:none; }
+    .thumb::after{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="logo-box">LOGO</div>
+    <nav class="primary-nav">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1 id="heroName">
+      <span class="decrypt-line" data-decrypt="CAITRÍONA">CAITRÍONA</span>
+      <span class="decrypt-line" data-decrypt="MCALLISTER">MCALLISTER</span>
+    </h1>
+    <p class="hover-hint">hover to decrypt</p>
+    <p class="tagline">Creative Technologist &amp; Strategist</p>
+  </section>
+
+  <section id="work" class="work-section">
+    <div class="work-heading">
+      <h2>My Work &amp; About Me</h2>
+      <button id="viewToggle" type="button">Grid / Spatial</button>
+    </div>
+
+    <div class="masonry" id="masonry">
+      <a class="project-card" href="#">
+        <div class="thumb"></div>
+        <div class="meta">
+          <div class="brand">[Brand — Project Title]</div>
+          <div class="loc">[City, Country]</div>
+        </div>
+      </a>
+      <a class="project-card" href="#">
+        <div class="thumb"></div>
+        <div class="meta">
+          <div class="brand">[Brand — Project Title]</div>
+          <div class="loc">[City, Country]</div>
+        </div>
+      </a>
+      <a class="project-card" href="#">
+        <div class="thumb"></div>
+        <div class="meta">
+          <div class="brand">[Brand — Project Title]</div>
+          <div class="loc">[City, Country]</div>
+        </div>
+      </a>
+      <a class="project-card" href="#">
+        <div class="thumb"></div>
+        <div class="meta">
+          <div class="brand">[Brand — Project Title]</div>
+          <div class="loc">[City, Country]</div>
+        </div>
+      </a>
+      <a class="project-card" href="#">
+        <div class="thumb"></div>
+        <div class="meta">
+          <div class="brand">[Brand — Project Title]</div>
+          <div class="loc">[City, Country]</div>
+        </div>
+      </a>
+      <a class="project-card" href="#">
+        <div class="thumb"></div>
+        <div class="meta">
+          <div class="brand">[Brand — Project Title]</div>
+          <div class="loc">[City, Country]</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section id="about" class="about-section">
+    <h2>About Me</h2>
+    <div class="about-grid">
+      <p class="bio">
+        I'm a creative technologist and strategist working across digital design, motion and emerging technology — most recently as a generalist at Seeper, an immersive experience design studio, moving between marketing, production, design and technology. I like sitting at the point where a brand idea becomes a working interface, an installation, or a piece of AI-driven tooling, and I care as much about the strategy behind a project as the pixels.
+        <br><br>
+        <em style="opacity:.6">[Draft bio — swap in your final copy]</em>
+      </p>
+      <div class="divider"></div>
+      <div class="contact-block" id="contact">
+        <h3>Contact me</h3>
+        <ul>
+          <li>Email: <a href="mailto:caitriona.mcallister1@gmail.com">caitriona.mcallister1@gmail.com</a></li>
+          <li>LinkedIn: <a href="#">[Link]</a></li>
+          <li>Instagram: <a href="#">[Link]</a></li>
+          <li>Location: London, England</li>
+        </ul>
+      </div>
+    </div>
+    <button class="reel-btn" type="button">Click for video reel</button>
+  </section>
+
+  <div class="ticker">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+
+  <section class="monogram-section">
+    <canvas id="monogramCanvas"></canvas>
+  </section>
+
+  <footer class="site-footer">
+    <span>Portfolio — Caitríona McAllister</span>
+    <span>© 2026 CMcA</span>
+  </footer>
+
+<script>
+  // ---------- Decrypt / scramble hover effect ----------
+  const GLYPHS = "!<>-_\\/[]{}—=+*^?#";
+  function decryptEffect(el){
+    const target = el.getAttribute('data-decrypt') || el.textContent;
+    let frame = 0;
+    let running = false;
+    let interval = null;
+
+    function scramble(){
+      let out = "";
+      for(let i=0;i<target.length;i++){
+        if(target[i] === " "){ out += " "; continue; }
+        if(i < frame){ out += target[i]; }
+        else{ out += GLYPHS[Math.floor(Math.random()*GLYPHS.length)]; }
+      }
+      el.textContent = out;
+      frame += target.length / 12;
+      if(frame >= target.length){
+        el.textContent = target;
+        clearInterval(interval);
+        running = false;
+      }
+    }
+
+    el.addEventListener('mouseenter', () => {
+      if(running) return;
+      running = true;
+      frame = 0;
+      interval = setInterval(scramble, 28);
+    });
+  }
+  document.querySelectorAll('[data-decrypt]').forEach(decryptEffect);
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduceMotion){
+    document.querySelectorAll('[data-decrypt]').forEach(el => {
+      el.textContent = el.getAttribute('data-decrypt');
+    });
+  }
+
+  // ---------- Ticker content ----------
+  const skills = ["MOTION","UI / UX","BRANDING","GRAPHIC DESIGN","STRATEGY","R&D","BUSINESS DEV","AI","CREATIVE TECH","PRODUCTION"];
+  const track = document.getElementById('tickerTrack');
+  const list = [...skills, ...skills]; // duplicate for seamless loop
+  list.forEach(s => {
+    const span = document.createElement('span');
+    span.className = 'ticker-item';
+    span.textContent = s;
+    track.appendChild(span);
+  });
+
+  // ---------- Grid / Spatial toggle ----------
+  const toggleBtn = document.getElementById('viewToggle');
+  const masonry = document.getElementById('masonry');
+  toggleBtn.addEventListener('click', () => {
+    masonry.classList.toggle('list-view');
+    toggleBtn.textContent = masonry.classList.contains('list-view') ? 'List / Linear' : 'Grid / Spatial';
+  });
+
+  // ---------- Pixelated blackletter monogram ----------
+  function drawMonogram(){
+    const canvas = document.getElementById('monogramCanvas');
+    const ctx = canvas.getContext('2d');
+    const text = "C McA";
+    const smallW = 340, smallH = 120;
+    const scale = 8;
+
+    canvas.width = smallW * scale;
+    canvas.height = smallH * scale;
+    canvas.style.width = (smallW * scale / 2) + "px";
+    canvas.style.height = (smallH * scale / 2) + "px";
+
+    // draw small, then the browser scaling + image-rendering:pixelated gives the blocky look
+    const off = document.createElement('canvas');
+    off.width = smallW; off.height = smallH;
+    const octx = off.getContext('2d');
+    octx.fillStyle = "#111111";
+    octx.textAlign = "center";
+    octx.textBaseline = "middle";
+    octx.font = "700 92px 'UnifrakturCook'";
+    octx.fillText(text, smallW/2, smallH/2 + 6);
+
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(off, 0, 0, smallW, smallH, 0, 0, canvas.width, canvas.height);
+  }
+
+  if(document.fonts && document.fonts.ready){
+    document.fonts.load("700 92px 'UnifrakturCook'").then(drawMonogram).catch(drawMonogram);
+    document.fonts.ready.then(drawMonogram);
+  } else {
+    window.addEventListener('load', drawMonogram);
+  }
+</script>
+
+</body>
+</html>
