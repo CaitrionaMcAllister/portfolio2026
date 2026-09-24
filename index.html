@@ -266,6 +266,27 @@
     margin:0 10px;
     color:var(--ink-soft);
   }
+  .scroll-down-arrow{
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:40px;
+    height:40px;
+    margin:0 auto 32px;
+    font-family:var(--mono);
+    font-size:22px;
+    color:var(--ink);
+    text-decoration:none;
+    animation:scroll-arrow-bounce 2s ease-in-out infinite;
+    transition:opacity .2s ease;
+  }
+  .scroll-down-arrow:hover,
+  .scroll-down-arrow:focus-visible{ opacity:0.6; }
+  @keyframes scroll-arrow-bounce{
+    0%, 100%{ transform:translateY(0); }
+    50%{ transform:translateY(8px); }
+  }
 
   /* ---------- Work section ---------- */
   /* Slides up over the landing page (which stays pinned via position:sticky
@@ -754,6 +775,7 @@
     .ticker-track{ animation:none; }
     .thumb::after{ display:none; }
     .grid3x3, .monogram-text .mchar{ transition:none !important; }
+    .scroll-down-arrow{ animation:none; }
   }
 
   /* ---------- Project modal ---------- */
@@ -900,6 +922,8 @@
   <div class="landing-nav">
     <a href="#work">My Work</a><span class="sep">&amp;</span><a href="#about">About Me</a>
   </div>
+
+  <a href="#work" class="scroll-down-arrow" aria-label="Scroll to my work">&darr;</a>
   </div>
 
   <div class="work-cover"></div>
