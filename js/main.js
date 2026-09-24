@@ -108,6 +108,7 @@
       if(e.touches[0]) lightCell(e.touches[0].clientX, e.touches[0].clientY);
     }, { passive: true });
 
+    let rafId = null;
     function render(){
       const now = performance.now();
       const rect = section.getBoundingClientRect();
@@ -123,9 +124,27 @@
       });
       ctx.globalAlpha = 1;
 
-      requestAnimationFrame(render);
+      rafId = requestAnimationFrame(render);
     }
-    requestAnimationFrame(render);
+
+    // Only keep this canvas repainting every frame while its section is
+    // actually on screen — otherwise it was clearing/redrawing 60x a
+    // second for nothing, competing with everything else (including the
+    // ticker marquee) for main-thread time and making other animations
+    // on the page feel choppy.
+    if(window.IntersectionObserver){
+      new IntersectionObserver((entries) => {
+        const visible = entries[0]?.isIntersecting;
+        if(visible && rafId === null){
+          rafId = requestAnimationFrame(render);
+        } else if(!visible && rafId !== null){
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      }, { threshold: 0 }).observe(section);
+    } else {
+      rafId = requestAnimationFrame(render);
+    }
    } catch(err){
      console.warn('Pixel grid effect failed to start:', err);
    }
