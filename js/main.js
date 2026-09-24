@@ -250,7 +250,15 @@
   (function(){
    try {
     const canvas = document.getElementById('bgCanvas');
-    const gl = canvas.getContext('webgl', { preserveDrawingBuffer: true }) || canvas.getContext('experimental-webgl', { preserveDrawingBuffer: true });
+    // No preserveDrawingBuffer: it forces the browser to copy the whole
+    // drawing buffer every frame instead of an efficient swap, which was
+    // showing up as constant "GPU stall due to ReadPixels" warnings and
+    // stealing frame time from everything else on the page (including
+    // the ticker's CSS animation). The category-row hover peek below
+    // reads this canvas synchronously right after each draw instead, via
+    // a 'bgframe' event, so it still gets a live frame without needing
+    // the buffer preserved.
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if(!gl){ return; } // no WebGL: the body's static --grad-base color still shows
 
     const vertSrc = `
@@ -533,6 +541,10 @@
       gl.uniform1fv(uStreamStrength, streamStrengthArray);
 
       gl.drawArrays(gl.TRIANGLES, 0, 3);
+      // Let the category-row hover peek (elsewhere) grab a synchronous
+      // copy of this frame right now, while the buffer still has it —
+      // see the preserveDrawingBuffer note above.
+      canvas.dispatchEvent(new Event('bgframe'));
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
@@ -798,10 +810,9 @@
     if(!ctx) return;
 
     let activeRow = null;
-    let rafId = null;
 
     function updateFrame(){
-      if(!activeRow){ rafId = null; return; }
+      if(!activeRow) return;
       const wrapRect = wrap.getBoundingClientRect();
       const rowRect = activeRow.getBoundingClientRect();
 
@@ -829,20 +840,22 @@
       try {
         ctx.drawImage(bgCanvas, sx, sy, sw, sh, 0, 0, hoverCanvas.width, hoverCanvas.height);
       } catch(e){ /* ignore transient read errors */ }
-
-      rafId = requestAnimationFrame(updateFrame);
     }
+
+    // Driven by the WebGL canvas's own 'bgframe' event rather than a
+    // separate requestAnimationFrame loop, so the read always lands
+    // right after that frame draws instead of racing it on some other
+    // tick — see the preserveDrawingBuffer note where bgframe fires.
+    bgCanvas.addEventListener('bgframe', updateFrame);
 
     rows.forEach(row => {
       row.addEventListener('mouseenter', () => {
         activeRow = row;
         hoverCanvas.classList.add('is-active');
-        if(!rafId) rafId = requestAnimationFrame(updateFrame);
       });
       row.addEventListener('focus', () => {
         activeRow = row;
         hoverCanvas.classList.add('is-active');
-        if(!rafId) rafId = requestAnimationFrame(updateFrame);
       });
       row.addEventListener('mouseleave', () => {
         if(activeRow === row){
