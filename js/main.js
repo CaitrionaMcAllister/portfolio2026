@@ -762,6 +762,24 @@
     });
   }
 
+  // ---------- Services list: glass/blur reveal as each row scrolls into view ----------
+  (function(){
+    const rows = document.querySelectorAll('.category-row');
+    if(!rows.length) return;
+    rows.forEach(r => r.classList.add('pre-reveal'));
+
+    if(!window.IntersectionObserver){
+      rows.forEach(r => r.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        entry.target.classList.toggle('is-visible', entry.isIntersecting);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+    rows.forEach(r => observer.observe(r));
+  })();
+
   // ---------- Category row hover: live crop of the WebGL background ----------
   // Rather than a flat black hover state, this copies a live, continuously
   // updating window into the same #bgCanvas fluid shader and positions it

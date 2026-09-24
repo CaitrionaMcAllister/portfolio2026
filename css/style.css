@@ -494,7 +494,22 @@
     border-bottom:1px solid var(--line);
     text-decoration:none;
     color:var(--ink);
-    transition:background .25s ease, color .25s ease, padding .25s ease;
+    transition:background .25s ease, color .25s ease, padding .25s ease,
+      opacity .7s ease, filter .7s ease, transform .7s ease;
+  }
+  /* Rows fade in from a blurred, slightly-lowered state as they scroll
+     into view (and blur back out if you scroll back past them) — a
+     glass-like reveal, set up in JS via .pre-reveal so it degrades
+     gracefully with JS disabled. */
+  .category-row.pre-reveal{
+    opacity:0;
+    filter:blur(14px);
+    transform:translateY(28px);
+  }
+  .category-row.pre-reveal.is-visible{
+    opacity:1;
+    filter:blur(0);
+    transform:translateY(0);
   }
   .category-index{
     font-family:var(--mono);
@@ -979,6 +994,7 @@
     .thumb::after{ display:none; }
     .grid3x3, .monogram-text .mchar{ transition:none !important; }
     .scroll-down-arrow{ animation:none; }
+    .category-row.pre-reveal{ opacity:1; filter:none; transform:none; transition:none; }
   }
 
   /* ---------- Project modal ---------- */
