@@ -776,14 +776,14 @@
     });
   }
 
-  // ---------- Services list: glass/blur reveal as each row scrolls into view ----------
-  (function(){
-    const rows = document.querySelectorAll('.category-row');
-    if(!rows.length) return;
-    rows.forEach(r => r.classList.add('pre-reveal'));
+  // ---------- Glass/blur reveal: fades+sharpens elements in as they scroll
+  // into view, and blurs back out if you scroll back past them ----------
+  function initBlurReveal(elements){
+    if(!elements.length) return;
+    elements.forEach(el => el.classList.add('pre-reveal'));
 
     if(!window.IntersectionObserver){
-      rows.forEach(r => r.classList.add('is-visible'));
+      elements.forEach(el => el.classList.add('is-visible'));
       return;
     }
     const observer = new IntersectionObserver((entries) => {
@@ -791,8 +791,10 @@
         entry.target.classList.toggle('is-visible', entry.isIntersecting);
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
-    rows.forEach(r => observer.observe(r));
-  })();
+    elements.forEach(el => observer.observe(el));
+  }
+  initBlurReveal(document.querySelectorAll('.category-row'));
+  initBlurReveal(document.querySelectorAll('.about-grid .bio, .contact-block'));
 
   // ---------- Category row hover: live crop of the WebGL background ----------
   // Rather than a flat black hover state, this copies a live, continuously

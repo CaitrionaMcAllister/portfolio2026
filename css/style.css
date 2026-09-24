@@ -511,6 +511,22 @@
     filter:blur(0);
     transform:translateY(0);
   }
+  /* Generic version of the same glass reveal for anything else marked
+     up with .pre-reveal (the about/contact text) — kept separate from
+     the .category-row rule above (which needs its own combined
+     transition list for its hover states) so a plain .pre-reveal
+     element gets a clean transition of its own. */
+  .pre-reveal{
+    opacity:0;
+    filter:blur(14px);
+    transform:translateY(28px);
+    transition: opacity .7s ease, filter .7s ease, transform .7s ease;
+  }
+  .pre-reveal.is-visible{
+    opacity:1;
+    filter:blur(0);
+    transform:translateY(0);
+  }
   .category-index{
     font-family:var(--mono);
     font-size:13px;
@@ -997,7 +1013,8 @@
     .thumb::after{ display:none; }
     .grid3x3, .monogram-text .mchar{ transition:none !important; }
     .scroll-down-arrow{ animation:none; }
-    .category-row.pre-reveal{ opacity:1; filter:none; transform:none; transition:none; }
+    .category-row.pre-reveal,
+    .pre-reveal{ opacity:1; filter:none; transform:none; transition:none; }
   }
 
   /* ---------- Project modal ---------- */
