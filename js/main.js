@@ -848,7 +848,7 @@
     { src: 'images/logos/logo-mark-2.png', alt: 'Client logo' },
     { src: 'images/logos/bloomberg-media.png', alt: 'Bloomberg Media' },
     { src: 'images/logos/dewars.png', alt: "Dewar's" },
-    { src: 'images/logos/samsung.webp', alt: 'Samsung', needsLightBg: true },
+    { src: 'images/logos/samsung.png', alt: 'Samsung' },
   ];
 
   function fillTicker(trackEl){
