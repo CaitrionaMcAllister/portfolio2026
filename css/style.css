@@ -236,9 +236,9 @@
   .theme-toggle:hover,
   .theme-toggle:focus-visible{ opacity:1; }
   .theme-toggle svg{ width:18px; height:18px; display:block; }
-  .theme-toggle .icon-sun{ display:none; }
-  :root[data-theme="dark"] .theme-toggle .icon-moon{ display:none; }
-  :root[data-theme="dark"] .theme-toggle .icon-sun{ display:block; }
+  .theme-toggle .icon-moon{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .icon-sun{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
   .glass-nav .theme-toggle{ width:18px; height:18px; margin-left:0; }
 
   /* ---------- Hero ---------- */
@@ -852,6 +852,15 @@
   .footer-top-link:focus-visible{ border-color:#ffffff; }
 
   /* ---------- Dark mode ---------- */
+  /* Fades the Work/About/Contact panels smoothly between their black and
+     white states rather than the colors just snapping. Scoped with
+     :where() so it carries zero specificity — any element that already
+     declares its own transition (.category-row, .reel-btn, etc.) keeps
+     that instead of being overridden by this fallback. */
+  :where(.work-section, .work-section *, .about-section, .about-section *){
+    transition: background-color .4s ease, color .4s ease, border-color .4s ease;
+  }
+
   /* Light (the default, unattributed state) is the original design,
      unchanged: animated gradient hero, white Work/About/Contact panels,
      indigo footer. Toggling dark mode only turns the Work and About/
