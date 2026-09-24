@@ -5,23 +5,23 @@
     if(!toggles.length) return;
 
     function apply(theme){
-      if(theme === 'light'){
-        document.documentElement.setAttribute('data-theme', 'light');
+      if(theme === 'dark'){
+        document.documentElement.setAttribute('data-theme', 'dark');
       } else {
         document.documentElement.removeAttribute('data-theme');
       }
       toggles.forEach(btn => {
-        btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+        btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
       });
     }
 
     const saved = localStorage.getItem(STORAGE_KEY);
-    if(saved === 'light') apply('light');
+    if(saved === 'dark') apply('dark');
 
     toggles.forEach(btn => {
       btn.addEventListener('click', () => {
-        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-        const next = isLight ? 'dark' : 'light';
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const next = isDark ? 'light' : 'dark';
         apply(next);
         try { localStorage.setItem(STORAGE_KEY, next); } catch(e){ /* ignore (private mode, etc.) */ }
       });
@@ -149,7 +149,7 @@
         const age = (now - c.t) / CELL_LIFE;
         const alpha = (1 - age) * 0.5;
         ctx.globalAlpha = alpha;
-        ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'light' ? '#111111' : '#ffffff';
+        ctx.fillStyle = '#ffffff';
         ctx.fillRect(c.x, c.y, CELL - 2, CELL - 2);
       });
       ctx.globalAlpha = 1;
