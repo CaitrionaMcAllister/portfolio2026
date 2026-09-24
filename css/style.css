@@ -713,24 +713,24 @@
   /* ---------- Footer ---------- */
   .site-footer{
     background:var(--grad-indigo);
-    padding:120px 40px 32px;
+    padding:56px 40px 20px;
   }
   .footer-inner{
     max-width:1200px;
     margin:0 auto;
   }
   .footer-top{
-    max-width:720px;
-    margin-bottom:100px;
+    max-width:560px;
+    margin-bottom:40px;
   }
   .footer-heading{
     font-family:var(--display);
     font-weight:700;
     text-transform:uppercase;
-    font-size:clamp(34px, 5.5vw, 64px);
-    line-height:1.05;
+    font-size:clamp(22px, 3.2vw, 36px);
+    line-height:1.1;
     letter-spacing:0.01em;
-    margin:0 0 24px;
+    margin:0 0 14px;
   }
   .footer-heading em{
     font-style:italic;
@@ -740,17 +740,17 @@
   }
   .footer-sub{
     font-family:var(--body);
-    font-size:15px;
-    line-height:1.6;
+    font-size:13px;
+    line-height:1.55;
     color:rgba(255,255,255,0.75);
-    max-width:440px;
+    max-width:380px;
     margin:0;
   }
   .footer-links{
     display:flex;
     flex-wrap:wrap;
-    gap:64px;
-    padding-bottom:72px;
+    gap:48px;
+    padding-bottom:28px;
     border-bottom:1px solid rgba(255,255,255,0.22);
   }
   .footer-col h3{
@@ -777,28 +777,20 @@
   }
   .footer-col ul a:hover,
   .footer-col ul a:focus-visible{ border-color:rgba(255,255,255,0.6); }
-  .footer-wordmark{
-    font-family:var(--display);
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:-0.01em;
-    line-height:0.9;
-    font-size:clamp(38px, 9vw, 130px);
-    margin:64px 0 32px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:clip;
-  }
   .footer-bottom{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding-top:24px;
-    border-top:1px solid rgba(255,255,255,0.22);
+    padding-top:18px;
     font-family:var(--mono);
     font-size:11px;
     letter-spacing:0.1em;
     text-transform:uppercase;
+  }
+  .footer-bottom-left{
+    display:flex;
+    align-items:center;
+    gap:18px;
   }
   .footer-mark{
     font-family:'Old London', var(--display);
@@ -806,6 +798,24 @@
     letter-spacing:0.02em;
     text-transform:none;
     margin-left:4px;
+  }
+  .footer-socials{
+    display:flex;
+    gap:14px;
+  }
+  .footer-socials a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#ffffff;
+    opacity:0.75;
+    transition:opacity .2s ease;
+  }
+  .footer-socials a:hover,
+  .footer-socials a:focus-visible{ opacity:1; }
+  .footer-socials svg{
+    width:16px;
+    height:16px;
   }
   .footer-top-link{
     text-decoration:none;
@@ -872,11 +882,10 @@
     .about-grid{ flex-direction:column; }
     .about-grid .divider{ width:100%; height:1px; }
     .monogram-section{ padding:50px 20px; }
-    .site-footer{ padding:80px 20px 24px; }
-    .footer-top{ margin-bottom:56px; }
-    .footer-links{ gap:36px; padding-bottom:48px; }
-    .footer-wordmark{ white-space:normal; }
-    .footer-bottom{ flex-direction:column; align-items:flex-start; gap:10px; }
+    .site-footer{ padding:48px 20px 20px; }
+    .footer-top{ margin-bottom:32px; }
+    .footer-links{ gap:28px; padding-bottom:24px; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; gap:14px; }
     .ticker-logo-placeholder{ width:96px; height:46px; margin:0 12px; }
   }
 

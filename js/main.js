@@ -857,24 +857,6 @@
     if(e.key === 'Escape' && !modal.hidden) closeModal();
   });
 
-  // ---------- Footer wordmark: shrink to fit on one line at any viewport width ----------
-  (function(){
-    const mark = document.getElementById('footerWordmark');
-    if(!mark) return;
-
-    function fit(){
-      mark.style.fontSize = '';
-      const containerWidth = mark.parentElement.clientWidth;
-      const naturalWidth = mark.scrollWidth;
-      if(naturalWidth <= containerWidth) return;
-      const naturalSize = parseFloat(window.getComputedStyle(mark).fontSize);
-      const fitted = Math.floor(naturalSize * (containerWidth / naturalWidth));
-      mark.style.fontSize = fitted + 'px';
-    }
-    fit();
-    window.addEventListener('resize', fit);
-  })();
-
   // ---------- Glass nav: fades in once you've scrolled past the hero,
   // then stays pinned as a centered glass pill for the rest of the page ----------
   (function(){
