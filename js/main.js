@@ -902,6 +902,11 @@
     { src: 'images/logos/bloomberg-media.png', alt: 'Bloomberg Media' },
     { src: 'images/logos/dewars.png', alt: "Dewar's" },
     { src: 'images/logos/samsung.png', alt: 'Samsung' },
+    { src: 'images/logos/logo-mark-3.png', alt: 'Client logo' },
+    { src: 'images/logos/itv.png', alt: 'ITV' },
+    { src: 'images/logos/callebaut.png', alt: 'Callebaut' },
+    { src: 'images/logos/natwest.png', alt: 'NatWest' },
+    { src: 'images/logos/ual.png', alt: 'University of the Arts London' },
   ];
 
   function fillTicker(trackEl){
