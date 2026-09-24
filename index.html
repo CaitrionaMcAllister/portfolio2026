@@ -437,11 +437,24 @@
     text-align:left;
     transition:color .25s ease;
   }
+  .category-arrow{
+    font-family:var(--mono);
+    font-size:22px;
+    line-height:1;
+    flex-shrink:0;
+    display:inline-block;
+    transform:rotate(0deg);
+    transition:transform .3s ease;
+  }
   .category-row:hover,
   .category-row:focus-visible{
     background:transparent;
     color:#ffffff;
     padding-left:56px;
+  }
+  .category-row:hover .category-arrow,
+  .category-row:focus-visible .category-arrow{
+    transform:rotate(-45deg);
   }
   .category-row:hover .category-name,
   .category-row:focus-visible .category-name{
@@ -911,21 +924,25 @@
         <span class="category-index">(01)</span>
         <span class="category-name">Branding &amp; Graphic Design</span>
         <span class="category-desc">Visual identity systems built to hold together: logos, guidelines, and the finer details in between.</span>
+        <span class="category-arrow" aria-hidden="true">&rarr;</span>
       </a>
       <a class="category-row" href="#">
         <span class="category-index">(02)</span>
         <span class="category-name">Experience Design</span>
         <span class="category-desc">Interfaces and motion that make interaction feel intentional, from wireframe to final polish.</span>
+        <span class="category-arrow" aria-hidden="true">&rarr;</span>
       </a>
       <a class="category-row" href="#">
         <span class="category-index">(03)</span>
         <span class="category-name">Creative Technology &amp; AI</span>
         <span class="category-desc">Where code meets concept: installations, tools, and AI-driven prototypes.</span>
+        <span class="category-arrow" aria-hidden="true">&rarr;</span>
       </a>
       <a class="category-row" href="#">
         <span class="category-index">(04)</span>
         <span class="category-name">Strategy &amp; Production</span>
         <span class="category-desc">The thinking and delivery that keeps a project coherent from brief to launch.</span>
+        <span class="category-arrow" aria-hidden="true">&rarr;</span>
       </a>
     </div>
   </section>
