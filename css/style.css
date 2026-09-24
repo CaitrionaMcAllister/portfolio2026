@@ -651,6 +651,16 @@
     padding:100px;
     overflow:hidden;
   }
+  /* Smoothly bleeds the animated gradient background into the footer's
+     solid color below, rather than the two meeting at a hard edge */
+  .monogram-section::before{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:70%;
+    background:linear-gradient(to bottom, transparent, var(--grad-indigo));
+    pointer-events:none;
+  }
   .pixel-grid-canvas{
     position:absolute;
     inset:0;
