@@ -842,20 +842,28 @@
    }
   })();
 
-  // ---------- Ticker content: logo placeholders ----------
-  // Real client logos aren't in yet, so this ticker just shows placeholder
-  // boxes for now — swap fillTicker's output for actual <img> logos later.
-  const LOGO_PLACEHOLDER_COUNT = 8;
+  // ---------- Ticker content: client logos ----------
+  const CLIENT_LOGOS = [
+    { src: 'images/logos/logo-mark-1.png', alt: 'Client logo' },
+    { src: 'images/logos/logo-mark-2.png', alt: 'Client logo' },
+    { src: 'images/logos/bloomberg-media.png', alt: 'Bloomberg Media' },
+    { src: 'images/logos/dewars.png', alt: "Dewar's" },
+    { src: 'images/logos/samsung.webp', alt: 'Samsung', needsLightBg: true },
+  ];
 
   function fillTicker(trackEl){
-    if(!trackEl) return;
-    const total = LOGO_PLACEHOLDER_COUNT * 2; // duplicate for seamless loop
-    for(let i = 0; i < total; i++){
-      const box = document.createElement('span');
-      box.className = 'ticker-logo-placeholder';
-      box.textContent = 'LOGO';
-      trackEl.appendChild(box);
-    }
+    if(!trackEl || !CLIENT_LOGOS.length) return;
+    const list = [...CLIENT_LOGOS, ...CLIENT_LOGOS]; // duplicate for seamless loop
+    list.forEach(logo => {
+      const wrap = document.createElement('span');
+      wrap.className = 'ticker-logo' + (logo.needsLightBg ? ' ticker-logo--onlight' : '');
+      const img = document.createElement('img');
+      img.src = logo.src;
+      img.alt = logo.alt;
+      img.loading = 'lazy';
+      wrap.appendChild(img);
+      trackEl.appendChild(wrap);
+    });
   }
   fillTicker(document.getElementById('tickerTrack'));
 
