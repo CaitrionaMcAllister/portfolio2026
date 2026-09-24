@@ -217,6 +217,30 @@
   .glass-nav a:not(.glass-nav-mark):hover,
   .glass-nav a:not(.glass-nav-mark):focus-visible{ border-color:#111111; }
 
+  /* ---------- Dark / light mode toggle ---------- */
+  .theme-toggle{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:20px;
+    height:20px;
+    padding:0;
+    margin-left:4px;
+    background:none;
+    border:none;
+    color:inherit;
+    cursor:pointer;
+    opacity:0.85;
+    transition:opacity .2s ease;
+  }
+  .theme-toggle:hover,
+  .theme-toggle:focus-visible{ opacity:1; }
+  .theme-toggle svg{ width:18px; height:18px; display:block; }
+  .theme-toggle .icon-moon{ display:none; }
+  :root[data-theme="light"] .theme-toggle .icon-sun{ display:none; }
+  :root[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
+  .glass-nav .theme-toggle{ width:18px; height:18px; margin-left:0; }
+
   /* ---------- Hero ---------- */
   .hero{
     flex:1;
@@ -826,6 +850,68 @@
   }
   .footer-top-link:hover,
   .footer-top-link:focus-visible{ border-color:#ffffff; }
+
+  /* ---------- Light theme ---------- */
+  /* Dark is the default, "designed" look (animated gradient background,
+     white text). Toggling light mode swaps the root ink variables, hides
+     the animated background in favor of a flat light one, and re-colors
+     the sections that were hardcoded for the dark background rather than
+     driven by variables (ticker, monogram, footer). Everything scoped
+     under html[data-theme="light"] so it wins over the base rules
+     regardless of where they sit in the file. */
+  html[data-theme="light"]{
+    --ink:#111111;
+    --ink-soft:#4a4a4a;
+    --line:rgba(0,0,0,0.18);
+    --dark:rgba(0,0,0,0.08);
+    --focus:#111111;
+    --placeholder:rgba(0,0,0,0.1);
+  }
+  html[data-theme="light"] body{
+    background:#f3f1f7;
+  }
+  html[data-theme="light"] #bgCanvas{ opacity:0; }
+  html[data-theme="light"] #bgGrain{ opacity:0.04; }
+
+  /* Flip both of the base stylesheet's forced white-text rules (one
+     scoped to body, one to .gradient-zone — belt and braces there,
+     so belt and braces here too) so every section reads dark on the
+     new light background, except the project modal, which stays
+     dark/dramatic in both themes like a lightbox, so it's re-asserted
+     white afterwards. */
+  html[data-theme="light"] body,
+  html[data-theme="light"] body *,
+  html[data-theme="light"] .gradient-zone,
+  html[data-theme="light"] .gradient-zone *{ color:#111111; }
+  html[data-theme="light"] .modal-overlay,
+  html[data-theme="light"] .modal-overlay *{ color:#ffffff; }
+
+  html[data-theme="light"] .ticker{
+    background:rgba(255,255,255,0.55);
+  }
+  html[data-theme="light"] .ticker-item{
+    color:#3a3a3a;
+    border-right:1px solid rgba(0,0,0,0.15);
+  }
+  html[data-theme="light"] .ticker-logo-placeholder{
+    background:rgba(0,0,0,0.05);
+    border:1px solid rgba(0,0,0,0.2);
+    color:rgba(0,0,0,0.5);
+  }
+
+  html[data-theme="light"] .monogram-text{ color:#111111; }
+  html[data-theme="light"] .monogram-section::before{
+    background:linear-gradient(to bottom, transparent, #e3ddf5);
+  }
+
+  html[data-theme="light"] .site-footer{ background:#e3ddf5; }
+  html[data-theme="light"] .footer-sub{ color:rgba(17,17,17,0.7); }
+  html[data-theme="light"] .footer-col h3{ color:rgba(17,17,17,0.55); }
+  html[data-theme="light"] .footer-col ul a:hover,
+  html[data-theme="light"] .footer-col ul a:focus-visible{ border-color:rgba(17,17,17,0.5); }
+  html[data-theme="light"] .footer-socials a{ color:#111111; }
+  html[data-theme="light"] .footer-top-link:hover,
+  html[data-theme="light"] .footer-top-link:focus-visible{ border-color:#111111; }
 
   /* ---------- Tablet ---------- */
   @media (max-width:1024px){

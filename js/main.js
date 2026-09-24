@@ -1,3 +1,33 @@
+  // ---------- Dark / light mode toggle ----------
+  (function(){
+    const STORAGE_KEY = 'theme';
+    const toggles = document.querySelectorAll('.theme-toggle');
+    if(!toggles.length) return;
+
+    function apply(theme){
+      if(theme === 'light'){
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      toggles.forEach(btn => {
+        btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+      });
+    }
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved === 'light') apply('light');
+
+    toggles.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        const next = isLight ? 'dark' : 'light';
+        apply(next);
+        try { localStorage.setItem(STORAGE_KEY, next); } catch(e){ /* ignore (private mode, etc.) */ }
+      });
+    });
+  })();
+
   // ---------- Landing text swipe (scroll-matched) + Work grid reveal ----------
   // The landing page stays pinned via position:sticky while the work
   // cover panel rises over it. Rather than animate the text on a fixed
@@ -119,7 +149,7 @@
         const age = (now - c.t) / CELL_LIFE;
         const alpha = (1 - age) * 0.5;
         ctx.globalAlpha = alpha;
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'light' ? '#111111' : '#ffffff';
         ctx.fillRect(c.x, c.y, CELL - 2, CELL - 2);
       });
       ctx.globalAlpha = 1;
