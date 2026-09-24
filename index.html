@@ -432,19 +432,20 @@
     font-size:14px;
     line-height:1.5;
     color:var(--ink-soft);
-    max-width:280px;
+    max-width:240px;
     flex-shrink:0;
     text-align:left;
     transition:color .25s ease;
   }
   .category-arrow{
     font-family:var(--mono);
-    font-size:22px;
+    font-size:32px;
     line-height:1;
     flex-shrink:0;
     display:inline-block;
+    color:var(--ink);
     transform:rotate(0deg);
-    transition:transform .3s ease;
+    transition:transform .3s ease, color .25s ease;
   }
   .category-row:hover,
   .category-row:focus-visible{
@@ -454,6 +455,7 @@
   }
   .category-row:hover .category-arrow,
   .category-row:focus-visible .category-arrow{
+    color:#ffffff;
     transform:rotate(-45deg);
   }
   .category-row:hover .category-name,
