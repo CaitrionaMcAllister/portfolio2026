@@ -101,10 +101,13 @@
     const CELL_LIFE = 900;  // ms a lit cell stays visible before fading
     let dpr = 1;
     let cells = []; // { x, y, t }
+    let logicalWidth = 0, logicalHeight = 0; // cached so render() never forces a layout read
 
     function resize(){
       dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const rect = section.getBoundingClientRect();
+      logicalWidth = rect.width;
+      logicalHeight = rect.height;
       canvas.width = Math.floor(rect.width * dpr);
       canvas.height = Math.floor(rect.height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -141,8 +144,7 @@
     let rafId = null;
     function render(){
       const now = performance.now();
-      const rect = section.getBoundingClientRect();
-      ctx.clearRect(0, 0, rect.width, rect.height);
+      ctx.clearRect(0, 0, logicalWidth, logicalHeight);
 
       cells = cells.filter(c => now - c.t < CELL_LIFE);
       cells.forEach(c => {
@@ -931,6 +933,48 @@
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape' && !modal.hidden) closeModal();
   });
+
+  // ---------- Video reel modal ----------
+  // The button is a real link to the Google Drive file (works even
+  // without JS, or if someone wants it open in a new tab); JS intercepts
+  // the click to instead show it embedded in a popup on the page.
+  (function(){
+    const btn = document.getElementById('reelBtn');
+    const reelModal = document.getElementById('reelModal');
+    const reelClose = document.getElementById('reelModalClose');
+    const videoWrap = document.getElementById('reelVideoWrap');
+    if(!btn || !reelModal || !reelClose || !videoWrap) return;
+
+    const DRIVE_FILE_ID = '1qHEE79CKK0oUeVShU4VXoa4_WIAE5lTu';
+    const EMBED_SRC = `https://drive.google.com/file/d/${DRIVE_FILE_ID}/preview`;
+    let lastFocused = null;
+
+    function openReel(){
+      videoWrap.innerHTML = `<iframe src="${EMBED_SRC}" allow="autoplay" allowfullscreen title="Video reel"></iframe>`;
+      lastFocused = document.activeElement;
+      reelModal.hidden = false;
+      document.body.classList.add('modal-open');
+      reelClose.focus();
+    }
+    function closeReel(){
+      reelModal.hidden = true;
+      document.body.classList.remove('modal-open');
+      videoWrap.innerHTML = ''; // stop playback
+      if(lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openReel();
+    });
+    reelClose.addEventListener('click', closeReel);
+    reelModal.addEventListener('click', (e) => {
+      if(e.target === reelModal) closeReel();
+    });
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && !reelModal.hidden) closeReel();
+    });
+  })();
 
   // ---------- Glass nav: fades in once you've scrolled past the hero,
   // then stays pinned as a centered glass pill for the rest of the page ----------

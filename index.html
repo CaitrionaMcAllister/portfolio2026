@@ -143,7 +143,7 @@
         </ul>
       </div>
     </div>
-    <button class="reel-btn" type="button">Click for video reel</button>
+    <a class="reel-btn" id="reelBtn" href="https://drive.google.com/file/d/1qHEE79CKK0oUeVShU4VXoa4_WIAE5lTu/view?usp=sharing" target="_blank" rel="noopener">Click for video reel</a>
   </section>
   </div>
 
@@ -219,6 +219,15 @@
       <h3 class="modal-title" id="modalTitle">[Brand: Project Title]</h3>
       <p class="modal-description" id="modalDescription">[Project description goes here: a couple of sentences on the brief, approach, and outcome.]</p>
       <div class="modal-location" id="modalLocation">[City, Country]</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="reelModal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="reelModalTitle">
+      <button class="modal-close" id="reelModalClose" type="button" aria-label="Close">&times;</button>
+      <h3 class="modal-title" id="reelModalTitle">Video Reel</h3>
+      <div class="modal-video" id="reelVideoWrap"></div>
+      <a class="reel-drive-link" href="https://drive.google.com/file/d/1qHEE79CKK0oUeVShU4VXoa4_WIAE5lTu/view?usp=sharing" target="_blank" rel="noopener">Open in Google Drive &nearr;</a>
     </div>
   </div>
 
