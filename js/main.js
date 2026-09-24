@@ -604,11 +604,29 @@
       if(e.touches[0]) addRipple(e.touches[0].clientX, e.touches[0].clientY);
     }, { passive: true });
 
+    // Cached instead of read fresh in isOverLightSection() — that's
+    // called up to twice per trail point/ripple, every single frame,
+    // which was forcing a synchronous layout read that many times a
+    // frame or more and jamming up everything else on the page
+    // (including the ticker's animation) while the cursor was moving.
+    let lightSectionRects = [];
+    function updateLightSectionRects(){
+      lightSectionRects = [document.getElementById('work'), document.getElementById('about')]
+        .filter(Boolean)
+        .map(el => el.getBoundingClientRect());
+    }
+    updateLightSectionRects();
+    window.addEventListener('resize', updateLightSectionRects);
+    let rectTicking = false;
+    window.addEventListener('scroll', () => {
+      if(!rectTicking){
+        requestAnimationFrame(() => { updateLightSectionRects(); rectTicking = false; });
+        rectTicking = true;
+      }
+    }, { passive: true });
+
     function isOverLightSection(y){
-      const lightSections = [document.getElementById('work'), document.getElementById('about')];
-      for(const el of lightSections){
-        if(!el) continue;
-        const r = el.getBoundingClientRect();
+      for(const r of lightSectionRects){
         if(y >= r.top && y <= r.bottom) return true;
       }
       return false;
