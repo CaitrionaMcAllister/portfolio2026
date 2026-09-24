@@ -652,9 +652,23 @@
     text-transform:uppercase;
     text-decoration:none;
     cursor:pointer;
-    transition:background .2s ease, color .2s ease;
+    transition:background .4s ease, color .4s ease,
+      opacity .7s ease, filter .7s ease, transform .7s ease;
   }
   #about .reel-btn:hover{ background:#111111; color:#ffffff; }
+  /* Same glass reveal as the bio/contact text above it, kept on its own
+     combined transition (like .category-row) so the hover fill above
+     doesn't get clobbered by the generic .pre-reveal rule. */
+  .reel-btn.pre-reveal{
+    opacity:0;
+    filter:blur(14px);
+    transform:translateY(28px);
+  }
+  .reel-btn.pre-reveal.is-visible{
+    opacity:1;
+    filter:blur(0);
+    transform:translateY(0);
+  }
 
   /* ---------- Ticker ---------- */
   .ticker{
@@ -1016,6 +1030,7 @@
     .grid3x3, .monogram-text .mchar{ transition:none !important; }
     .scroll-down-arrow{ animation:none; }
     .category-row.pre-reveal,
+    .reel-btn.pre-reveal,
     .pre-reveal{ opacity:1; filter:none; transform:none; transition:none; }
   }
 
