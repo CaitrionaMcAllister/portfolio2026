@@ -711,7 +711,7 @@
   .ticker-logo img{
     display:block;
     max-height:100%;
-    max-width:150px;
+    max-width:320px;
     width:auto;
     height:auto;
     object-fit:contain;
@@ -1021,7 +1021,7 @@
     .footer-bottom{ gap:10px; }
     .footer-bottom-left{ gap:10px; }
     .ticker-logo{ height:28px; margin:0 20px; }
-    .ticker-logo img{ max-width:100px; }
+    .ticker-logo img{ max-width:250px; }
   }
 
   /* ---------- Small phones ---------- */
