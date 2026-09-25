@@ -907,6 +907,10 @@
     { src: 'images/logos/callebaut.png', alt: 'Callebaut' },
     { src: 'images/logos/natwest.png', alt: 'NatWest' },
     { src: 'images/logos/ual.png', alt: 'University of the Arts London' },
+    { src: 'images/logos/london-design-festival.png', alt: 'London Design Festival' },
+    { src: 'images/logos/cas.png', alt: 'CAS' },
+    { src: 'images/logos/bcs.png', alt: 'BCS, The Chartered Institute for IT' },
+    { src: 'images/logos/eva-london.png', alt: 'EVA London Conference' },
   ];
 
   function fillTicker(trackEl){
