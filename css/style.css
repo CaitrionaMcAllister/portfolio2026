@@ -459,7 +459,7 @@
   }
   .grid3x3 .project-card .brand,
   .grid3x3 .project-card .loc{
-    color:var(--ink);
+    color:#ffffff;
   }
 
   /* ---------- Project category index ---------- */
