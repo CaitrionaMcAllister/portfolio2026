@@ -812,7 +812,7 @@
     elements.forEach(el => observer.observe(el));
   }
   initBlurReveal(document.querySelectorAll('.category-row'));
-  initBlurReveal(document.querySelectorAll('.about-grid .bio, .contact-block, .reel-btn'));
+  initBlurReveal(document.querySelectorAll('.about-section h2, .about-grid .bio, .contact-block, .reel-btn'));
 
   // ---------- Category row hover: live crop of the WebGL background ----------
   // Rather than a flat black hover state, this copies a live, continuously
