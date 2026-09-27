@@ -478,15 +478,6 @@
     margin-top:160px;
     border-top:1px solid var(--line);
   }
-  .category-hover-canvas{
-    position:absolute;
-    left:0; top:0;
-    pointer-events:none;
-    opacity:0;
-    transition:opacity .25s ease;
-    z-index:1;
-  }
-  .category-hover-canvas.is-active{ opacity:1; }
   .category-heading{
     position:relative;
     z-index:2;
@@ -577,29 +568,52 @@
     transform:rotate(0deg);
     transition:transform .3s ease, color .25s ease;
   }
+  /* Text/background colour flip on hover is handled entirely by the
+     cursor-following reveal band (a duplicate layer, see below) rather
+     than this pseudo-class, so the two don't fight over which row is
+     "hovered" while the band is still easing toward the cursor. Only
+     the harmless instant micro-interactions stay here. */
   .category-row:hover,
   .category-row:focus-visible{
-    background:transparent;
-    color:#ffffff;
     padding-left:56px;
   }
   .category-row:hover .category-arrow,
   .category-row:focus-visible .category-arrow{
-    color:#ffffff;
     transform:rotate(-45deg);
   }
-  .category-row:hover .category-name,
-  .category-row:focus-visible .category-name{
+
+  /* Obscura-style hover reveal: a duplicate of the rows (white text, live
+     WebGL background behind) sits on top and is clipped to a cursor-
+     following band (see the JS rAF loop) so only a lagging slice of it
+     shows through at a time, independent of individual row boundaries. */
+  .category-reveal-layer{
+    position:absolute;
+    left:0; top:0; right:0; bottom:0;
+    z-index:3;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .2s ease;
+    clip-path:inset(0 0 100% 0);
+    overflow:hidden;
+  }
+  .category-reveal-layer.is-active{ opacity:1; }
+  .category-hover-canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+  }
+  .category-reveal-layer .category-row{
+    position:relative;
+    background:transparent;
     color:#ffffff;
+    border-bottom:1px solid var(--line);
   }
-  .category-row:hover .category-index,
-  .category-row:focus-visible .category-index{
-    color:rgba(255,255,255,0.75);
-  }
-  .category-row:hover .category-desc,
-  .category-row:focus-visible .category-desc{
-    color:rgba(255,255,255,0.85);
-  }
+  .category-reveal-layer .category-row:last-child{ border-bottom:none; }
+  .category-reveal-layer .category-name{ color:#ffffff; }
+  .category-reveal-layer .category-index{ color:rgba(255,255,255,0.75); }
+  .category-reveal-layer .category-desc{ color:rgba(255,255,255,0.85); }
+  .category-reveal-layer .category-arrow{ color:#ffffff; }
 
   /* ---------- About section ---------- */
   .about-section{
