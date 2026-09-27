@@ -955,7 +955,7 @@
     if(videoId){
       modalVideoWrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${modalTitle.textContent} video"></iframe>`;
     } else {
-      modalVideoWrap.innerHTML = '<div class="modal-video-placeholder">[ Video ]</div>';
+      modalVideoWrap.innerHTML = '<div class="modal-video-placeholder">[ Video coming soon... ]</div>';
     }
 
     lastFocused = document.activeElement;
@@ -967,7 +967,7 @@
   function closeModal(){
     modal.hidden = true;
     document.body.classList.remove('modal-open');
-    modalVideoWrap.innerHTML = '<div class="modal-video-placeholder">[ Video ]</div>'; // stop playback
+    modalVideoWrap.innerHTML = '<div class="modal-video-placeholder">[ Video coming soon... ]</div>'; // stop playback
     if(lastFocused && typeof lastFocused.focus === 'function'){
       lastFocused.focus();
     }
