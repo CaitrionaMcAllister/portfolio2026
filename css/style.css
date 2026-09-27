@@ -451,6 +451,16 @@
     width:100% !important;
     aspect-ratio:1/1 !important;
   }
+  /* Dark gradient behind the bottom-anchored meta text so the white
+     brand/location labels stay readable over any thumbnail image,
+     in both grayscale (default) and full-colour (hover) states. */
+  .grid3x3 .project-card .thumb::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.7) 100%);
+    pointer-events:none;
+  }
   .grid3x3 .project-card .meta{
     position:absolute;
     left:0; right:0; bottom:0;
