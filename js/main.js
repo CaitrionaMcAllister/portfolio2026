@@ -987,12 +987,12 @@
     const videoWrap = document.getElementById('reelVideoWrap');
     if(!btn || !reelModal || !reelClose || !videoWrap) return;
 
-    const DRIVE_FILE_ID = '1qHEE79CKK0oUeVShU4VXoa4_WIAE5lTu';
-    const EMBED_SRC = `https://drive.google.com/file/d/${DRIVE_FILE_ID}/preview`;
+    const YOUTUBE_VIDEO_ID = 'l1VXYprspTo';
+    const EMBED_SRC = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0`;
     let lastFocused = null;
 
     function openReel(){
-      videoWrap.innerHTML = `<iframe src="${EMBED_SRC}" allow="autoplay" allowfullscreen title="Video reel"></iframe>`;
+      videoWrap.innerHTML = `<iframe src="${EMBED_SRC}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="Video reel"></iframe>`;
       lastFocused = document.activeElement;
       reelModal.hidden = false;
       document.body.classList.add('modal-open');
