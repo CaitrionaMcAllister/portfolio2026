@@ -582,38 +582,41 @@
     transform:rotate(-45deg);
   }
 
-  /* Obscura-style hover reveal: a duplicate of the rows (white text, live
-     WebGL background behind) sits on top and is clipped to a cursor-
-     following band (see the JS rAF loop) so only a lagging slice of it
-     shows through at a time, independent of individual row boundaries. */
-  .category-reveal-layer{
+  /* Obscura-style hover reveal: each row gets its own fill layer — a live
+     crop of the WebGL background plus a white-text duplicate of that row —
+     clipped with a bottom-anchored clip-path that CSS-transitions in on
+     hover, wiping the row in from the bottom up (and closing the same way
+     on mouseleave), entirely independently of the other rows. */
+  .category-row-fill{
     position:absolute;
-    left:0; top:0; right:0; bottom:0;
-    z-index:3;
+    inset:0;
+    z-index:1;
     pointer-events:none;
-    opacity:0;
-    transition:opacity .2s ease;
-    clip-path:inset(0 0 100% 0);
     overflow:hidden;
+    clip-path:inset(100% 0 0 0);
+    transition:clip-path .6s cubic-bezier(.65,0,.35,1);
   }
-  .category-reveal-layer.is-active{ opacity:1; }
-  .category-hover-canvas{
+  .category-row-fill.is-filled{ clip-path:inset(0 0 0 0); }
+  .category-row-canvas{
     position:absolute;
     inset:0;
     width:100%;
     height:100%;
+    display:block;
   }
-  .category-reveal-layer .category-row{
+  .category-row-fill-label{
     position:relative;
-    background:transparent;
+    height:100%;
+    display:flex;
+    align-items:center;
+    gap:32px;
+    padding:34px 40px;
     color:#ffffff;
-    border-bottom:1px solid var(--line);
   }
-  .category-reveal-layer .category-row:last-child{ border-bottom:none; }
-  .category-reveal-layer .category-name{ color:#ffffff; }
-  .category-reveal-layer .category-index{ color:rgba(255,255,255,0.75); }
-  .category-reveal-layer .category-desc{ color:rgba(255,255,255,0.85); }
-  .category-reveal-layer .category-arrow{ color:#ffffff; }
+  .category-row-fill-label .category-name{ color:#ffffff; }
+  .category-row-fill-label .category-index{ color:rgba(255,255,255,0.75); }
+  .category-row-fill-label .category-desc{ color:rgba(255,255,255,0.85); }
+  .category-row-fill-label .category-arrow{ color:#ffffff; transform:rotate(-45deg); }
 
   /* ---------- About section ---------- */
   .about-section{
@@ -1058,6 +1061,7 @@
     .category-row:hover, .category-row:focus-visible{ padding-left:20px; }
     .category-name{ font-size:clamp(22px, 8vw, 34px); }
     .category-desc{ display:none; }
+    .category-row-fill-label{ padding:24px 20px; gap:16px; flex-wrap:wrap; }
     .about-section{ padding:85px 24px; }
     .about-grid{ flex-direction:column; }
     .about-grid .divider{ width:100%; height:1px; }
@@ -1087,6 +1091,7 @@
     .category-row.pre-reveal,
     .reel-btn.pre-reveal,
     .pre-reveal{ opacity:1; filter:none; transform:none; transition:none; }
+    .category-row-fill{ transition:none; }
   }
 
   /* ---------- Project modal ---------- */
@@ -1209,6 +1214,7 @@
     letter-spacing:0.1em;
     text-transform:uppercase;
     color:rgba(255,255,255,0.65);
+    margin:0 0 20px;
   }
 
   @media (max-width:600px){

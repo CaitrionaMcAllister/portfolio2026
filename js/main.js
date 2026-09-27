@@ -814,102 +814,89 @@
   initBlurReveal(document.querySelectorAll('.category-row'));
   initBlurReveal(document.querySelectorAll('.about-section h2, .about-grid .bio, .contact-block, .reel-btn'));
 
-  // ---------- Category rows: cursor-following WebGL reveal band ----------
-  // A duplicate of the rows (white text, transparent background) sits over a
-  // live crop of the #bgCanvas fluid shader, and the pair is clipped to a
-  // single horizontal band that eases toward the cursor's Y position every
-  // frame — so a lagging "window" into the animated background slides
-  // smoothly across rows, independent of individual row boundaries, echoing
-  // the Obscura Studio reference rather than snapping per row.
+  // ---------- Category rows: each fills bottom-to-top on its own hover ----------
+  // Every row gets its own fill layer — a live crop of the #bgCanvas fluid
+  // shader plus a white-text duplicate of that row's content — clipped with
+  // a bottom-anchored inset that animates via CSS transition, so hovering a
+  // row wipes it in from the bottom up (and closes the same way on
+  // mouseleave), independently of every other row.
   (function(){
    try {
     if(!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     const bgCanvas = document.getElementById('bgCanvas');
-    const container = document.getElementById('projectCategories');
-    const revealLayer = document.getElementById('categoryRevealLayer');
-    const hoverCanvas = document.getElementById('categoryHoverCanvas');
-    const heading = document.querySelector('#projectCategories > .category-heading');
     const rows = document.querySelectorAll('#projectCategories > .category-row');
-    if(!bgCanvas || !container || !revealLayer || !hoverCanvas || !rows.length) return;
-    const ctx = hoverCanvas.getContext('2d');
-    if(!ctx) return;
+    if(!bgCanvas || !rows.length) return;
 
-    // A same-height, invisible spacer for the heading above the rows, so
-    // the cloned rows land at the same vertical offsets as the real ones.
-    if(heading){
-      const spacer = document.createElement('div');
-      spacer.style.height = heading.offsetHeight + 'px';
-      revealLayer.appendChild(spacer);
-    }
+    const entries = [];
     rows.forEach(row => {
-      const clone = document.createElement('div');
-      clone.className = 'category-row';
-      clone.innerHTML = row.innerHTML;
-      revealLayer.appendChild(clone);
+      const fill = document.createElement('div');
+      fill.className = 'category-row-fill';
+      fill.setAttribute('aria-hidden', 'true');
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'category-row-canvas';
+      fill.appendChild(canvas);
+
+      const label = document.createElement('div');
+      label.className = 'category-row-fill-label';
+      label.innerHTML = row.innerHTML;
+      fill.appendChild(label);
+
+      row.appendChild(fill);
+
+      const ctx = canvas.getContext('2d');
+      entries.push({ row, fill, canvas, ctx, active: false });
     });
 
-    let bandHeight = rows[0].offsetHeight;
-    function measure(){ bandHeight = rows[0].offsetHeight; }
-    window.addEventListener('resize', measure);
-
-    let targetY = 0;
-    let currentY = 0;
-    let hovering = false;
-    let rafId = null;
-
-    function updateCanvasCrop(){
-      if(!hovering) return;
-      const wrapRect = container.getBoundingClientRect();
+    function updateCanvasCrop(entry){
+      const rowRect = entry.row.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      hoverCanvas.width = Math.max(1, Math.round(wrapRect.width * dpr));
-      hoverCanvas.height = Math.max(1, Math.round(wrapRect.height * dpr));
+      entry.canvas.width = Math.max(1, Math.round(rowRect.width * dpr));
+      entry.canvas.height = Math.max(1, Math.round(rowRect.height * dpr));
 
       const scaleX = bgCanvas.width / window.innerWidth;
       const scaleY = bgCanvas.height / window.innerHeight;
-      const sx = wrapRect.left * scaleX;
-      const sy = wrapRect.top * scaleY;
-      const sw = wrapRect.width * scaleX;
-      const sh = wrapRect.height * scaleY;
+      const sx = rowRect.left * scaleX;
+      const sy = rowRect.top * scaleY;
+      const sw = rowRect.width * scaleX;
+      const sh = rowRect.height * scaleY;
 
       try {
-        ctx.drawImage(bgCanvas, sx, sy, sw, sh, 0, 0, hoverCanvas.width, hoverCanvas.height);
+        entry.ctx.drawImage(bgCanvas, sx, sy, sw, sh, 0, 0, entry.canvas.width, entry.canvas.height);
       } catch(e){ /* ignore transient read errors */ }
     }
     // Driven by the WebGL canvas's own 'bgframe' event so the read always
     // lands right after that frame draws (see the preserveDrawingBuffer
     // note where bgframe fires) rather than racing it on a separate rAF.
-    bgCanvas.addEventListener('bgframe', updateCanvasCrop);
-
-    function frame(){
-      const containerHeight = container.offsetHeight;
-      currentY += (targetY - currentY) * 0.15;
-      const top = Math.max(0, Math.min(currentY - bandHeight / 2, containerHeight - bandHeight));
-      const bottom = Math.max(0, containerHeight - top - bandHeight);
-      revealLayer.style.clipPath = `inset(${top}px 0 ${bottom}px 0)`;
-      if(hovering || Math.abs(targetY - currentY) > 0.5){
-        rafId = requestAnimationFrame(frame);
-      } else {
-        rafId = null;
-      }
-    }
-
-    container.addEventListener('mouseenter', () => {
-      hovering = true;
-      measure();
-      revealLayer.classList.add('is-active');
-      if(!rafId) rafId = requestAnimationFrame(frame);
+    bgCanvas.addEventListener('bgframe', () => {
+      entries.forEach(entry => { if(entry.active) updateCanvasCrop(entry); });
     });
-    container.addEventListener('mousemove', (e) => {
-      const rect = container.getBoundingClientRect();
-      targetY = e.clientY - rect.top;
-      if(!rafId) rafId = requestAnimationFrame(frame);
-    });
-    container.addEventListener('mouseleave', () => {
-      hovering = false;
-      revealLayer.classList.remove('is-active');
+
+    entries.forEach(entry => {
+      entry.row.addEventListener('mouseenter', () => {
+        entry.active = true;
+        updateCanvasCrop(entry);
+        entry.fill.classList.add('is-filled');
+      });
+      entry.row.addEventListener('focus', () => {
+        entry.active = true;
+        updateCanvasCrop(entry);
+        entry.fill.classList.add('is-filled');
+      });
+      entry.row.addEventListener('mouseleave', () => {
+        entry.fill.classList.remove('is-filled');
+      });
+      entry.row.addEventListener('blur', () => {
+        entry.fill.classList.remove('is-filled');
+      });
+      entry.fill.addEventListener('transitionend', (e) => {
+        if(e.propertyName === 'clip-path' && !entry.fill.classList.contains('is-filled')){
+          entry.active = false;
+        }
+      });
     });
    } catch(err){
-     console.warn('Category reveal-band hover failed to start:', err);
+     console.warn('Category row fill hover failed to start:', err);
    }
   })();
 
