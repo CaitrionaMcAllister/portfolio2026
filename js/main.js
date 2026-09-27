@@ -932,6 +932,7 @@
   // ---------- Project modal ----------
   const modal = document.getElementById('projectModal');
   const modalClose = document.getElementById('modalClose');
+  const modalVideoWrap = document.getElementById('modalVideoWrap');
   const modalTitle = document.getElementById('modalTitle');
   const modalDescription = document.getElementById('modalDescription');
   const modalLocation = document.getElementById('modalLocation');
@@ -945,6 +946,13 @@
     modalDescription.textContent = card.getAttribute('data-description') ||
       '[Project description goes here: a couple of sentences on the brief, approach, and outcome.]';
 
+    const videoId = card.getAttribute('data-video');
+    if(videoId){
+      modalVideoWrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${modalTitle.textContent} video"></iframe>`;
+    } else {
+      modalVideoWrap.innerHTML = '<div class="modal-video-placeholder">[ Video ]</div>';
+    }
+
     lastFocused = document.activeElement;
     modal.hidden = false;
     document.body.classList.add('modal-open');
@@ -954,6 +962,7 @@
   function closeModal(){
     modal.hidden = true;
     document.body.classList.remove('modal-open');
+    modalVideoWrap.innerHTML = '<div class="modal-video-placeholder">[ Video ]</div>'; // stop playback
     if(lastFocused && typeof lastFocused.focus === 'function'){
       lastFocused.focus();
     }
